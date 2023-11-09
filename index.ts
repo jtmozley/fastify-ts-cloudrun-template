@@ -1,6 +1,28 @@
 import fastifyAutoload from '@fastify/autoload';
 import fastify from 'fastify';
 import path from 'path';
+import fastifySwagger from '@fastify/swagger';
+import fastifySwaggerUi from '@fastify/swagger-ui';
+
+const swaggerOptions = {
+    hideUntagged: true,
+    openapi: {
+        info: {
+            title: 'Title',
+            description: 'Test description',
+            version: process.env.npm_package_version as string,
+        },
+        host: 'http://localhost:3001', // api base url
+        schemes: ['https'],
+        consumes: ['application/json'],
+        produces: ['application/json', 'image/gif'],
+        tags: [{ name: 'Test', description: 'Test description' }],
+    },
+};
+
+const swaggerUiOptions = {
+    routePrefix: '/docs',
+};
 
 const server = fastify({
     trustProxy: true,
@@ -9,6 +31,9 @@ const server = fastify({
 server.register(fastifyAutoload, {
     dir: path.join(__dirname, 'routes'),
 });
+
+server.register(fastifySwagger, swaggerOptions);
+server.register(fastifySwaggerUi, swaggerUiOptions);
 
 const IS_GOOGLE_CLOUD_RUN = process.env.K_SERVICE !== undefined;
 
