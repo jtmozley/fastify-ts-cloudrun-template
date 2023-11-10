@@ -14,13 +14,13 @@ jobs:
               uses: schliflo/action-cloud-run@2.5.0
               with:
                   # required
-                  project: workoutdb-d93e4
-                  service_name: template-test
+                  project: ${{ secrets.PROJECT_ID }}
+                  service_name: ${{ secrets.SERVICE_NAME }}
                   key: ${{ secrets.GCP_CLOUD_RUN_SERVICE_KEY }}
                   # optional settings
                   action: deploy
                   registry: gcr.io
-                  region: us-east
+                  region: us-east1
                   platform: managed
                   working_directory: .
                   deploy_flags: '--allow-unauthenticated'
