@@ -1,0 +1,29 @@
+---
+name: 'Cloud Run: Deploy Service'
+'on':
+    workflow_dispatch: null
+    push: null
+jobs:
+    deploy:
+        name: Deploy
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+            - name: 'Cloud Run: Deploy Service'
+              uses: schliflo/action-cloud-run@2.5.0
+              env:
+                  # if set github deployments will be used
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  # required
+                  project: workoutdb-d93e4
+                  service_name: template-test
+                  key: ${{ secrets.GCP_CLOUD_RUN_SERVICE_KEY }}
+                  # optional settings
+                  action: deploy
+                  registry: gcr.io
+                  region: us-east
+                  platform: managed
+                  working_directory: .
+                  deploy_flags: '--allow-unauthenticated'
