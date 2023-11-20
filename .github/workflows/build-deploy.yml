@@ -3,7 +3,7 @@ name: 'Cloud Run: Deploy Service'
 'on':
     push:
         branches:
-            - main
+            - < production branch >
 jobs:
     deploy:
         name: Deploy
