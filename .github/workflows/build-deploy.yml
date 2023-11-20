@@ -1,8 +1,9 @@
 ---
 name: 'Cloud Run: Deploy Service'
 'on':
-    workflow_dispatch: null
-    push: null
+    push:
+        branches:
+            - main
 jobs:
     deploy:
         name: Deploy
