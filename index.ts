@@ -3,6 +3,10 @@ import fastify from 'fastify';
 import path from 'path';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
+import cors from '@fastify/cors';
+import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
+
+import 'dotenv/config';
 
 const swaggerOptions = {
     hideUntagged: true,
@@ -27,6 +31,13 @@ const swaggerUiOptions = {
 const server = fastify({
     trustProxy: true,
 });
+
+server.register(cors, {
+    origin: [''],
+    credentials: true,
+});
+
+server.register(fastifyRequestLogger);
 
 server.register(fastifyAutoload, {
     dir: path.join(__dirname, 'routes'),
