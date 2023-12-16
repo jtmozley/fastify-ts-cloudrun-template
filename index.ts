@@ -1,5 +1,5 @@
 import fastifyAutoload from '@fastify/autoload';
-import fastify from 'fastify';
+import fastify, { FastifyInstance } from 'fastify';
 import path from 'path';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
@@ -28,8 +28,16 @@ const swaggerUiOptions = {
     routePrefix: '/docs',
 };
 
-const server = fastify({
+const server: FastifyInstance = fastify({
     trustProxy: true,
+    logger: {
+        level: 'debug',
+        transport: {
+            target: '@mgcrea/pino-pretty-compact',
+            options: { translateTime: 'HH:MM:ss Z', ignore: 'pid,hostname' },
+        },
+    },
+    disableRequestLogging: true,
 });
 
 server.register(cors, {
